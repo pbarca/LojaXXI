@@ -7,10 +7,16 @@ usr = User()
 art = Artigos()
 
 
-@app.route('/inserirA')
+@app.route('/inserirA', methods=['GET', 'POST'])
 def inserirA():
-    art.inserirA('Placa Gráfica', 'Asus', 'RTS 3080', 567.7)
-    return redirect('/')
+    if request.method == 'POST':
+        v1 = request.form['category']
+        v2 = request.form['brand']
+        v3 = request.form['description']
+        v4 = request.form['price']
+        art.inserirA(v1, v2, v3, v4)
+    erro = "Artigo inserido com sucesso"
+    return render_template('Artigos/inserirA.html', erro=erro, usr=usr, art=art)
 
 
 @app.route('/tabela')
