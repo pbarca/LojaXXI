@@ -1,14 +1,23 @@
 from flask import Flask, render_template, request, redirect
 from user import User
+from artigos import Artigos
 
 app = Flask(__name__)
 usr = User()
+art = Artigos()
+
+
+@app.route('/inserirA')
+def inserirA():
+    art.inserirA('Placa Gráfica', 'Asus', 'RTS 3080', 567.7)
+    return redirect('/')
 
 
 @app.route('/tabela')
 def tabela():
     dados = usr.lista
     return render_template('Utilizadores/tabela.html', tabela=dados, max=len(dados), usr=usr)
+
 
 @app.route('/registo', methods=['GET', 'POST'])
 def route():
@@ -48,10 +57,12 @@ def login():
             erro = 'Bem-Vindo.'
     return render_template('Utilizadores/login.html', erro=erro, usr=usr)
 
+
 @app.route('/logout')
 def logout():
     usr.reset()
     return redirect('/')
+
 
 @app.route('/apagar', methods=['GET', 'POST'])
 def apagar():
