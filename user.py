@@ -86,6 +86,18 @@ class User:
             valor = ""
         return valor
 
+    @property
+    def campos(self):
+        try:
+            ficheiro = self.herokudb()
+            db = ficheiro.cursor()
+            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name   = 'usr';")
+            valor = db.fetchall()
+            ficheiro.close()
+        except:
+            valor = ""
+        return valor
+
     @staticmethod
     def code(passe):
         import hashlib
